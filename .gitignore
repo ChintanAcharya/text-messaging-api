@@ -1,0 +1,11 @@
+#IDEA
+.idea
+
+# Node modules
+node_modules
+
+#configuration
+.env
+
+#test
+test.js
