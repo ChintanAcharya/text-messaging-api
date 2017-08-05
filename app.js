@@ -11,7 +11,7 @@ const config = {
         test: process.env.SMS_TEST === 'true',
         username: process.env.SMS_USERNAME,
         hash: process.env.SMS_HASH,
-        sender: process.env.SMS_SENDER
+        sender: process.env.SMS_SENDER || 'TXTLCL'
     },
     database: {
         url: process.env.DATABASE_URL
