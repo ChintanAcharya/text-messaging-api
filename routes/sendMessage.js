@@ -35,7 +35,6 @@ module.exports = (db, config) => (request, response) => {
             }))
         .then((responseBody) => {
             const res = JSON.parse(responseBody);
-            console.log(res.status);
             if (res.status === 'success')
                 response.json({success: true});
             else return Promise.reject(res.errors);

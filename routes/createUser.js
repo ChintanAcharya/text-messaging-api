@@ -6,8 +6,6 @@ module.exports = (db) => (request, response) => {
     const user = request.body.username;
     const pass = request.body.password;
 
-    console.log({user, pass});
-
     const salt = crypto.randomBytes(128).toString('base64');
     const iterations = Math.random() * 500 + 500;
 
