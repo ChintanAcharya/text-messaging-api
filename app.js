@@ -25,10 +25,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/test', (request, response) => {
-    response.json({success: true});
-});
-
 MongoClient.connect(config.database.url)
     .then((db) => {
         console.log("Connected to database.");
@@ -50,14 +46,15 @@ MongoClient.connect(config.database.url)
             // set locals, only providing error in development
             res.locals.message = err.message;
             res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-            // render the error page
             res.status(err.status || 500);
-            res.json({error: 'error', success: 'false', status: err.status});
+            res.json({error: 'Error', success: false, status: err.status});
         });
 
+    })
+    .catch((err) => {
+        app.all(['/sendMessage', '/addUser'], (request, response) => {
+            response.json({success: false, error: 'Failed to connect to the database'});
+        });
     });
-
-
 
 module.exports = app;
