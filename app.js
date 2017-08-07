@@ -31,8 +31,10 @@ MongoClient.connect(config.database.url)
         const auth = require('./middleware/authenticate')(db);
         const sendMessage = require('./routes/sendMessage')(db, config);
         const createUser = require('./routes/createUser')(db);
+        const textLocal = require('./routes/textLocal')(db);
         app.post('/sendMessage', auth, sendMessage);
         app.post('/createUser', createUser);
+        app.post('/textLocal', textLocal);
 
         // catch 404 and forward to error handler
         app.use(function (req, res, next) {

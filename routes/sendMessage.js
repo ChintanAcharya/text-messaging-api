@@ -3,19 +3,20 @@ const httpRequest = require('request-promise-native');
 module.exports = (db, config) => (request, response) => {
     const {numbers, event, message} = request.body;
     const {test, username, hash, sender} = config.sms;
+    const receipt_url = 'https://boiling-lowlands-48353.herokuapp.com/textLocal';
 
     db.collection('counters').findOneAndUpdate(
         {name: "requestCount"},
         {"$inc": {seq: 1}},
         {upsert: true}
     )
-        .then((result) => {
-            return Promise.resolve(result.value.seq);
-        })
+        .then((result) =>
+            Promise.resolve(result.value.seq)
+        )
         .then((seq) =>
             db.collection('requests').insertOne({
                 _id: seq,
-                numbers: numbers.split(','),
+                numbers: numbers.split(',').map(num => ({number: num, status: '?'})),
                 event,
                 message,
                 date: new Date()
@@ -30,7 +31,8 @@ module.exports = (db, config) => (request, response) => {
                     numbers,
                     message: 'This is a test.',
                     custom: result.insertedId,
-                    sender
+                    sender,
+                    receipt_url
                 }
             }))
         .then((responseBody) => {

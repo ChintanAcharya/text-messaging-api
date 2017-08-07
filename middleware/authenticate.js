@@ -5,6 +5,11 @@ module.exports = (db) => (request, response, next) => {
     const username = request.body.username;
     const password = request.body.password;
 
+    if (!username || !password) {
+        response.json({success: false, error: 'Invalid request'});
+        return;
+    }
+
     db.collection('users').findOne({username})
         .then((doc) => {
             if (doc === null)
