@@ -13,13 +13,13 @@ module.exports = (db) => (request, response, next) => {
     db.collection('users').findOne({username})
         .then((doc) => {
             if (doc === null)
-                response.json({success: false, error: 'Invalid username'});
+                response.json({success: false, error: 'Invalid credentials'});
             else {
                 const {salt, iterations, hash} = doc.password;
                 if (hash === passwordUtils.encrypt(password, salt, iterations))
                     next();
                 else
-                    response.json({success: false, error: 'Invalid password'});
+                    response.json({success: false, error: 'Invalid credentials'});
             }
         })
         .catch((err) => {

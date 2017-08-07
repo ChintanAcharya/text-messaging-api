@@ -1,5 +1,5 @@
 module.exports = (db) => (request, response) => {
-    const page = request.body.page || 0;
+    const page = request.body.page || 1;
     const numPerPage = 10;
 
     db.collection('requests').find({}).skip((page - 1) * numPerPage).limit(numPerPage).toArray()
