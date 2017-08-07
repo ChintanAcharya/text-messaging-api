@@ -3,7 +3,6 @@ const httpRequest = require('request-promise-native');
 module.exports = (db, config) => (request, response) => {
     const {numbers, event, message} = request.body;
     const {test, username, hash, sender} = config.sms;
-    const receipt_url = 'http://boiling-lowlands-48353.herokuapp.com/textLocal';
 
     db.collection('counters').findOneAndUpdate(
         {name: 'requestCount'},
@@ -32,7 +31,7 @@ module.exports = (db, config) => (request, response) => {
                     message,
                     custom: result.insertedId,
                     sender,
-                    receipt_url
+                    receipt_url: config.receipt_url
                 }
             }))
         .then((responseBody) => {

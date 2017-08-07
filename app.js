@@ -15,7 +15,8 @@ const config = {
     },
     database: {
         url: process.env.DATABASE_URL
-    }
+    },
+    receipt_url: process.env.RECEIPT_URL
 };
 
 const app = express();
