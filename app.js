@@ -28,14 +28,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 MongoClient.connect(config.database.url)
     .then((db) => {
         console.log('Connected to database.');
+
         const auth = require('./middleware/authenticate')(db);
         const validateRequest = require('./middleware/validateRequest')();
         const sendMessage = require('./routes/sendMessage')(db, config);
         const createUser = require('./routes/createUser')(db);
         const textLocal = require('./routes/textLocal')(db);
+        const history = require('./routes/history')(db);
+        const verifyLogin = require('./routes/verifyLogin')();
+
         app.post('/sendMessage', auth, validateRequest, sendMessage);
         app.post('/createUser', createUser);
         app.post('/textLocal', textLocal);
+        app.post('/history', auth, history);
+        app.post('/verifyLogin', auth, verifyLogin);
 
         // catch 404 and forward to error handler
         app.use(function (req, res, next) {
@@ -52,7 +58,6 @@ MongoClient.connect(config.database.url)
             res.status(err.status || 500);
             res.json({error: 'Error', success: false, status: err.status});
         });
-
     })
     .catch((err) => {
         app.all(['/sendMessage', '/addUser'], (request, response) => {
