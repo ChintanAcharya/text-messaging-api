@@ -27,12 +27,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 MongoClient.connect(config.database.url)
     .then((db) => {
-        console.log("Connected to database.");
+        console.log('Connected to database.');
         const auth = require('./middleware/authenticate')(db);
+        const validateRequest = require('./middleware/validateRequest')();
         const sendMessage = require('./routes/sendMessage')(db, config);
         const createUser = require('./routes/createUser')(db);
         const textLocal = require('./routes/textLocal')(db);
-        app.post('/sendMessage', auth, sendMessage);
+        app.post('/sendMessage', auth, validateRequest, sendMessage);
         app.post('/createUser', createUser);
         app.post('/textLocal', textLocal);
 

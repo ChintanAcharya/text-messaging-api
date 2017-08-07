@@ -6,8 +6,8 @@ module.exports = (db, config) => (request, response) => {
     const receipt_url = 'http://boiling-lowlands-48353.herokuapp.com/textLocal';
 
     db.collection('counters').findOneAndUpdate(
-        {name: "requestCount"},
-        {"$inc": {seq: 1}},
+        {name: 'requestCount'},
+        {'$inc': {seq: 1}},
         {upsert: true}
     )
         .then((result) =>

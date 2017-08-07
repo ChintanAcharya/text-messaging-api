@@ -6,7 +6,10 @@ module.exports = (db) => (request, response) => {
         {'$set': {'numbers.$.status': status}}
     )
         .then((result) => {
-            console.log(result);
+            response.json({});
         })
-        .catch(console.log);
+        .catch((error) => {
+            console.log(error);
+            response.json({});
+        });
 };
