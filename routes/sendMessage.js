@@ -29,7 +29,7 @@ module.exports = (db, config) => (request, response) => {
                     hash,
                     username,
                     numbers,
-                    message: 'This is a test.',
+                    message,
                     custom: result.insertedId,
                     sender,
                     receipt_url
