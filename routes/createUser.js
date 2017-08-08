@@ -7,7 +7,7 @@ module.exports = (db) => async (request, response) => {
     const pass = request.body.password;
 
     const salt = crypto.randomBytes(128).toString('base64');
-    const iterations = Math.random() * 500 + 500;
+    const iterations = Math.floor(Math.random() * 500 + 500);
 
     try {
         await db.collection('users').insertOne({
