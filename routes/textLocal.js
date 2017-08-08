@@ -1,15 +1,15 @@
-module.exports = (db) => (request, response) => {
+module.exports = (db) => async (request, response) => {
     const {number, status, customID, datetime} = request.body;
     console.log(request.body);
-    db.collection('requests').findOneAndUpdate(
-        {_id: +customID, 'numbers.number': number.slice(2)},
-        {'$set': {'numbers.$.status': status}}
-    )
-        .then((result) => {
-            response.json({});
-        })
-        .catch((error) => {
-            console.log(error);
-            response.json({});
-        });
+    try {
+        const result = await db.collection('requests').findOneAndUpdate(
+            {_id: +customID, 'numbers.number': number.slice(2)},
+            {'$set': {'numbers.$.status': status}}
+        );
+        response.json({});
+    }
+    catch (err) {
+        console.log(err);
+        response.json({});
+    }
 };

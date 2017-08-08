@@ -3,6 +3,7 @@ const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -25,6 +26,7 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 MongoClient.connect(config.database.url)
     .then((db) => {
@@ -59,6 +61,7 @@ MongoClient.connect(config.database.url)
             res.status(err.status || 500);
             res.json({error: 'Error', success: false, status: err.status});
         });
+
     })
     .catch((err) => {
         app.all(['/sendMessage', '/addUser'], (request, response) => {
