@@ -18,7 +18,7 @@ module.exports = (db) => async (request, response) => {
                 hash: passwordUtils.encrypt(pass, salt, iterations)
             }
         });
-        response.json({success: true})
+        response.json({success: true});
     }
     catch
         (err) {

@@ -1,7 +1,7 @@
 const httpRequest = require('request-promise-native');
 
 module.exports = (db, config) => async (request, response) => {
-    const {numbers, event, message} = request.body;
+    const {numbers, event, date, name, contact, mainEvent} = request.body;
     const {test, username, hash, sender} = config.sms;
 
     try {
@@ -14,9 +14,10 @@ module.exports = (db, config) => async (request, response) => {
             _id: seq,
             numbers: numbers.split(',').map(num => ({number: num, status: '?'})),
             event,
-            message,
-            date: new Date()
+            date: new Date(),
+            mainEvent,
         });
+        const message = `Thank you for registering in ${event}.\nPlease pay fees at the desks in A-block on ${date} or contact coordinator ${name} : ${contact}.\n-teamBVM`;
         const responseBody = await httpRequest.post({
             url: 'https://api.textlocal.in/send/',
             form: {
@@ -31,9 +32,11 @@ module.exports = (db, config) => async (request, response) => {
             }
         });
         const res = JSON.parse(responseBody);
+        console.log(res);
         if (res.status === 'success')
             response.json({success: true});
-        throw res.errors;
+        else
+            throw res.errors;
     }
     catch (err) {
         response.json({success: false, error: err})

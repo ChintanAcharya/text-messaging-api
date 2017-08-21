@@ -1,13 +1,8 @@
 module.exports = () => (request, response, next) => {
 
-    const {numbers, event, message} = request.body;
+    const {numbers, event, date, username, password, name, contact, mainEvent} = request.body;
 
-    if (!numbers || !event || !message) {
-        response.json({success: false, error: 'Invalid request.'});
-        return;
-    }
-
-    if (typeof numbers !== 'string' || typeof event !== 'string' || typeof message !== 'string') {
+    if (!numbers || !event || !date || !name || !contact || !mainEvent) {
         response.json({success: false, error: 'Invalid request.'});
         return;
     }
