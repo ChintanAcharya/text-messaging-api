@@ -17,7 +17,11 @@ module.exports = (db, config) => async (request, response) => {
             date: new Date(),
             mainEvent,
         });
-        const message = `Thank you for registering in ${event}.\nPlease pay fees at the desks in A-block on ${date} or contact coordinator ${name} : ${contact}.\n-teamBVM`;
+        const message = 'Dear friends\n' +
+            'The \'Freshers\' by BVM is on 5th Sept. \n' +
+            'The audition dates: 28-29-30Aug from 6 pm.\n' +
+            'Categories: dance,singing,theatre, anchoring\n' +
+            'Venue: Auditorium';
         const responseBody = await httpRequest.post({
             url: 'https://api.textlocal.in/send/',
             form: {
